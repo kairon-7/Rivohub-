@@ -18,6 +18,7 @@ local keyGui = Instance.new("ScreenGui")
 keyGui.Name = "RivoKey"
 keyGui.ResetOnSpawn = false
 keyGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+keyGui.DisplayOrder = 999
 keyGui.Parent = lpGui
 
 local overlay = Instance.new("Frame")
@@ -95,9 +96,96 @@ Instance.new("UICorner",discBtn).CornerRadius = UDim.new(0,10)
 
 discBtn.MouseButton1Click:Connect(function()
     pcall(function() if setclipboard then setclipboard(DISCORD) end end)
-    discBtn.Text = "Copied to clipboard!"
-    task.wait(2)
-    discBtn.Text = "Get Key  —  Join Discord"
+
+    local popOverlay = Instance.new("Frame")
+    popOverlay.Size = UDim2.new(1,0,1,0)
+    popOverlay.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    popOverlay.BackgroundTransparency = 0.35
+    popOverlay.BorderSizePixel = 0
+    popOverlay.ZIndex = 100
+    popOverlay.Parent = keyGui
+
+    local popup = Instance.new("Frame")
+    popup.Size = UDim2.new(0,340,0,190)
+    popup.Position = UDim2.new(0.5,-170,0.5,-95)
+    popup.BackgroundColor3 = Color3.fromRGB(10,8,24)
+    popup.BorderSizePixel = 0
+    popup.ZIndex = 101
+    popup.Parent = popOverlay
+    Instance.new("UICorner",popup).CornerRadius = UDim.new(0,14)
+
+    local popStroke = Instance.new("UIStroke")
+    popStroke.Color = Color3.fromRGB(90,70,200)
+    popStroke.Thickness = 1.5
+    popStroke.Parent = popup
+
+    local popTop = Instance.new("Frame")
+    popTop.Size = UDim2.new(1,0,0,4)
+    popTop.BackgroundColor3 = Color3.fromRGB(100,80,220)
+    popTop.BorderSizePixel = 0
+    popTop.ZIndex = 102
+    popTop.Parent = popup
+    Instance.new("UICorner",popTop).CornerRadius = UDim.new(0,14)
+
+    local popTitle = Instance.new("TextLabel")
+    popTitle.Size = UDim2.new(1,-24,0,30)
+    popTitle.Position = UDim2.new(0,12,0,20)
+    popTitle.BackgroundTransparency = 1
+    popTitle.Text = "Link Copied!"
+    popTitle.TextColor3 = Color3.fromRGB(255,255,255)
+    popTitle.TextSize = 20
+    popTitle.Font = Enum.Font.GothamBold
+    popTitle.ZIndex = 102
+    popTitle.Parent = popup
+
+    local popDesc = Instance.new("TextLabel")
+    popDesc.Size = UDim2.new(1,-24,0,44)
+    popDesc.Position = UDim2.new(0,12,0,54)
+    popDesc.BackgroundTransparency = 1
+    popDesc.Text = "Paste it in your browser to join the Discord and get your key."
+    popDesc.TextColor3 = Color3.fromRGB(180,175,220)
+    popDesc.TextSize = 13
+    popDesc.Font = Enum.Font.Gotham
+    popDesc.TextWrapped = true
+    popDesc.ZIndex = 102
+    popDesc.Parent = popup
+
+    local linkBox = Instance.new("TextBox")
+    linkBox.Size = UDim2.new(1,-24,0,32)
+    linkBox.Position = UDim2.new(0,12,0,104)
+    linkBox.BackgroundColor3 = Color3.fromRGB(18,14,38)
+    linkBox.Text = DISCORD
+    linkBox.TextColor3 = Color3.fromRGB(120,255,180)
+    linkBox.TextSize = 12
+    linkBox.Font = Enum.Font.GothamBold
+    linkBox.BorderSizePixel = 0
+    linkBox.TextEditable = false
+    linkBox.ClearTextOnFocus = false
+    linkBox.ZIndex = 102
+    linkBox.Parent = popup
+    Instance.new("UICorner",linkBox).CornerRadius = UDim.new(0,8)
+    local lbStroke = Instance.new("UIStroke")
+    lbStroke.Color = Color3.fromRGB(65,55,140)
+    lbStroke.Thickness = 1.5
+    lbStroke.Parent = linkBox
+
+    local copyBtn = Instance.new("TextButton")
+    copyBtn.Size = UDim2.new(1,-24,0,38)
+    copyBtn.Position = UDim2.new(0,12,1,-50)
+    copyBtn.BackgroundColor3 = Color3.fromRGB(90,70,200)
+    copyBtn.Text = "Copy Link"
+    copyBtn.TextColor3 = Color3.fromRGB(255,255,255)
+    copyBtn.TextSize = 14
+    copyBtn.Font = Enum.Font.GothamSemibold
+    copyBtn.BorderSizePixel = 0
+    copyBtn.ZIndex = 102
+    copyBtn.Parent = popup
+    Instance.new("UICorner",copyBtn).CornerRadius = UDim.new(0,10)
+
+    copyBtn.MouseButton1Click:Connect(function()
+        pcall(function() if setclipboard then setclipboard(DISCORD) end end)
+        popOverlay:Destroy()
+    end)
 end)
 
 local keyBox = Instance.new("TextBox")
